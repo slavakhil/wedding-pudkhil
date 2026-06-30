@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GuestType {
+  single
+  couple
+  family
+}
+
+enum ContentType {
+  text
+  json
+  image
+}
+
+model Invitation {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  displayName String
+  internalName String   @default("")
+  guestType   GuestType @default(single)
+  isActive    Boolean   @default(true)
+  guests      Guest[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Guest {
+  id                String     @id @default(cuid())
+  invitationId      String
+  invitation        Invitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  phone             String
+  foodPreferences   String[]
+  alcoholPreferences String[]
+  hasChild          Boolean
+  comment           String?
+  questionAnswers   Json       @default("{}")
+  moneyGiftEnabled  Boolean    @default(false)
+  moneyGiftAmount   Int?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@unique([invitationId, phone])
+}
+
+model SiteContent {
+  id        String      @id @default(cuid())
+  key       String      @unique
+  value     Json
+  type      ContentType @default(text)
+  updatedAt DateTime    @updatedAt
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  key       String
+  url       String
+  alt       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -37,6 +37,56 @@ docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail
 docker compose -f docker-compose.prod.yml --env-file .env.production restart
 ```
 
+## Обновление кода без удаления базы
+
+База данных и загруженные файлы хранятся в Docker volumes. Они сохраняются при пересборке через `up -d --build`.
+
+На локальном Mac из папки проекта создать свежий архив:
+
+```bash
+cd /Users/slavjx/Documents/work/projects/wedding-pudkhil
+tar --exclude=node_modules --exclude='client/node_modules' --exclude='server/node_modules' --exclude='client/dist' --exclude='server/dist' --exclude='.git' --exclude='.qa' -czf wedding-pudkhil.tar.gz .
+```
+
+Загрузить архив на VPS:
+
+```bash
+scp wedding-pudkhil.tar.gz ubuntu@185.65.200.193:/tmp/
+```
+
+На VPS распаковать код поверх текущей версии:
+
+```bash
+cd /opt/wedding-pudkhil
+tar -xzf /tmp/wedding-pudkhil.tar.gz -C /opt/wedding-pudkhil
+```
+
+Пересобрать и запустить контейнеры:
+
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+```
+
+Проверить состояние:
+
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.production ps
+curl -I http://127.0.0.1:8080/
+curl http://127.0.0.1:8080/api/health
+```
+
+Если что-то пошло не так, посмотреть логи:
+
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail=100 server
+```
+
+Не запускать эту команду, если нужно сохранить базу и загруженные файлы:
+
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.production down -v
+```
+
 ## Бэкапы
 
 ### Сделать бэкап

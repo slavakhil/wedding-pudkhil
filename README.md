@@ -24,3 +24,8 @@ docker compose up --build
 - API: `http://localhost:4000/api/health`
 
 Ключ админ-панели задается в `.env` через `ADMIN_ACCESS_CODE`.
+
+## Деплой на VPS
+
+Production-инструкция для Ubuntu VPS с уже настроенным доменом и SSL лежит в [DEPLOY.md](./DEPLOY.md).
+

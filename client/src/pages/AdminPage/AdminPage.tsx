@@ -6,7 +6,7 @@ const tokenKey = "wedding-admin-token";
 const adminSections = [
   { id: "guests", label: "Гости и приглашения" },
   { id: "envelope", label: "Письмо", keys: ["hero.title"] },
-  { id: "intro", label: "Приглашение", keys: ["couple.names", "intro.greeting.single", "intro.greeting.couple", "intro.greeting.family", "intro.typeText.single", "intro.typeText.couple", "intro.typeText.family", "intro.date", "intro.place", "intro.message"] },
+  { id: "intro", label: "Приглашение", keys: ["couple.names", "intro.greeting.single", "intro.greeting.couple", "intro.greeting.family", "intro.typeText.single", "intro.typeText.couple", "intro.typeText.family", "intro.date", "intro.weddingDateTime", "intro.place", "intro.message"] },
   { id: "about", label: "Фото и текст", keys: ["about.text", "family.line"], imageSlot: "couple-main" },
   { id: "story", label: "История" },
   { id: "menu", label: "Меню", keys: ["menu.title", "menu.text"] },
@@ -659,6 +659,12 @@ function BlockEditor({
                 />
                 <span>Показывать поле денежного подарка в анкете</span>
               </span>
+            ) : item.key === "intro.weddingDateTime" ? (
+              <input
+                type="datetime-local"
+                value={typeof item.value === "string" ? item.value : ""}
+                onChange={(event) => onChange(item.key, event.target.value)}
+              />
             ) : (
               <textarea
                 rows={item.type === "json" ? 10 : 4}
@@ -966,6 +972,7 @@ function contentLabel(key: string) {
     "intro.typeText.couple": "Текст для пары",
     "intro.typeText.family": "Текст для семьи",
     "intro.date": "Дата",
+    "intro.weddingDateTime": "Дата и время для таймера",
     "intro.place": "Место",
     "intro.message": "Текст приглашения",
     "about.text": "Основной текст",

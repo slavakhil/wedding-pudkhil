@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-const weddingDate = new Date("2026-08-21T13:30:00+09:00").getTime();
+const fallbackWeddingDateTime = "2026-08-21T13:30";
 
-export function useCountdown() {
+export function useCountdown(weddingDateTime = fallbackWeddingDateTime) {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
@@ -11,12 +11,14 @@ export function useCountdown() {
   }, []);
 
   return useMemo(() => {
-    const diff = Math.max(weddingDate - now, 0);
+    const weddingDate = new Date(weddingDateTime).getTime();
+    const targetDate = Number.isFinite(weddingDate) ? weddingDate : new Date(fallbackWeddingDateTime).getTime();
+    const diff = Math.max(targetDate - now, 0);
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
     return { days, hours, minutes, seconds };
-  }, [now]);
+  }, [now, weddingDateTime]);
 }

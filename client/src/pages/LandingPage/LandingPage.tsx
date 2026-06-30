@@ -61,7 +61,6 @@ type QuestionType = "choice" | "text" | "number" | "date";
 
 export function LandingPage() {
   const { slug = "" } = useParams();
-  const countdown = useCountdown();
   const rsvpSectionRef = useRef<HTMLElement | null>(null);
   const storyViewportRef = useRef<HTMLDivElement | null>(null);
   const storyDragStartRef = useRef<number | null>(null);
@@ -135,6 +134,7 @@ export function LandingPage() {
   const scheduleItems = getScheduleItems(content);
   const envelopeTitle = splitEnvelopeTitle(contentText(content, "hero.title", "Приглашение на свадьбу"));
   const moneyGiftAvailable = contentBoolean(content, "gift.moneyGiftEnabled", true);
+  const countdown = useCountdown(contentText(content, "intro.weddingDateTime", "2026-08-21T13:30"));
 
   useEffect(() => {
     if (!moneyGiftAvailable) {

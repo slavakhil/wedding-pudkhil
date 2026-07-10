@@ -11,7 +11,7 @@ const rsvpSchema = z
     foodPreferences: z.array(z.string()).default([]),
     alcoholPreferences: z.array(z.string()).default([]),
     questionAnswers: z.record(z.array(z.string())).default({}),
-    hasChild: z.boolean(),
+    hasChild: z.boolean().default(false),
     comment: z.string().optional(),
     moneyGiftEnabled: z.boolean().default(false),
     moneyGiftAmount: z.number().int().positive().optional()

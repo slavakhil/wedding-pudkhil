@@ -364,7 +364,6 @@ function GuestsInvitationsPage({
       foodPreferences: guest.foodPreferences.join(", "),
       alcoholPreferences: guest.alcoholPreferences.join(", "),
       questionAnswers: normalizeQuestionAnswers(guest.questionAnswers),
-      hasChild: guest.hasChild,
       comment: guest.comment ?? "",
       moneyGiftEnabled: guest.moneyGiftEnabled,
       moneyGiftAmount: guest.moneyGiftAmount ? String(guest.moneyGiftAmount) : ""
@@ -391,7 +390,7 @@ function GuestsInvitationsPage({
       foodPreferences: splitList(guestDraft.foodPreferences),
       alcoholPreferences: splitList(guestDraft.alcoholPreferences),
       questionAnswers: guestDraft.questionAnswers,
-      hasChild: guestDraft.hasChild,
+      hasChild: guest.hasChild,
       comment: guestDraft.comment,
       moneyGiftEnabled: guestDraft.moneyGiftEnabled,
       moneyGiftAmount: guestDraft.moneyGiftEnabled ? Number(guestDraft.moneyGiftAmount) || null : null
@@ -531,7 +530,6 @@ function GuestsInvitationsPage({
                 <th>Телефон</th>
                 <th>Еда</th>
                 <th>Алкоголь</th>
-                <th>Ребенок</th>
                 <th>Подарок</th>
                 <th>Комментарий</th>
                 {extraQuestions.map((question) => (
@@ -552,16 +550,6 @@ function GuestsInvitationsPage({
                     <td>{isEditing ? <input value={guestDraft.phone} onChange={(event) => setGuestDraft({ ...guestDraft, phone: event.target.value })} /> : guest.phone}</td>
                     <td>{isEditing ? <textarea rows={2} value={guestDraft.foodPreferences} onChange={(event) => setGuestDraft({ ...guestDraft, foodPreferences: event.target.value })} /> : guest.foodPreferences.join(", ")}</td>
                     <td>{isEditing ? <textarea rows={2} value={guestDraft.alcoholPreferences} onChange={(event) => setGuestDraft({ ...guestDraft, alcoholPreferences: event.target.value })} /> : guest.alcoholPreferences.join(", ")}</td>
-                    <td>
-                      {isEditing ? (
-                        <select value={guestDraft.hasChild ? "yes" : "no"} onChange={(event) => setGuestDraft({ ...guestDraft, hasChild: event.target.value === "yes" })}>
-                          <option value="yes">Да</option>
-                          <option value="no">Нет</option>
-                        </select>
-                      ) : (
-                        guest.hasChild ? "Да" : "Нет"
-                      )}
-                    </td>
                     <td>
                       {isEditing ? (
                         <div className="table-inline-fields">
@@ -972,7 +960,7 @@ function contentLabel(key: string) {
     "intro.typeText.couple": "Текст для пары",
     "intro.typeText.family": "Текст для семьи",
     "intro.date": "Дата",
-    "intro.weddingDateTime": "Дата и время для таймера",
+    "intro.weddingDateTime": "Дата и время свадьбы (Якутск)",
     "intro.place": "Место",
     "intro.message": "Текст приглашения",
     "about.text": "Основной текст",
@@ -1012,7 +1000,6 @@ type GuestDraft = {
   foodPreferences: string;
   alcoholPreferences: string;
   questionAnswers: Record<string, string[]>;
-  hasChild: boolean;
   comment: string;
   moneyGiftEnabled: boolean;
   moneyGiftAmount: string;

@@ -29,6 +29,18 @@ services:
     volumes:
       - upload-data:/app/uploads
 
+  seed:
+    build:
+      context: ./server
+    profiles:
+      - seed
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://wedding:wedding@postgres:5432/wedding?schema=public}
+    command: sh -c "npx prisma migrate deploy && npx prisma db seed"
+    restart: "no"
+
   client:
     build:
       context: ./client

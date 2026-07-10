@@ -1,0 +1,1 @@
+ALTER TABLE "Guest" ALTER COLUMN "hasChild" SET DEFAULT false;

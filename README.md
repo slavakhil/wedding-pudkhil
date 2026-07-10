@@ -17,6 +17,12 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Стартовые данные через Docker запускаются отдельно и не перезаписываются при обычном рестарте:
+
+```bash
+npm run docker:seed
+```
+
 После запуска:
 
 - лендинг: `http://localhost:5173/invite/demo-family`
@@ -28,4 +34,3 @@ docker compose up --build
 ## Деплой на VPS
 
 Production-инструкция для Ubuntu VPS с уже настроенным доменом и SSL лежит в [DEPLOY.md](./DEPLOY.md).
-

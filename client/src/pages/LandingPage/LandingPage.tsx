@@ -73,7 +73,6 @@ export function LandingPage() {
   const [questionsOpen, setQuestionsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [questionAnswers, setQuestionAnswers] = useState<Record<string, string[]>>({});
-  const [hasChild, setHasChild] = useState(false);
   const [comment, setComment] = useState("");
   const [moneyGiftEnabled, setMoneyGiftEnabled] = useState(false);
   const [moneyGiftAmount, setMoneyGiftAmount] = useState("");
@@ -240,7 +239,6 @@ export function LandingPage() {
         foodPreferences: foodAnswer,
         alcoholPreferences: alcoholAnswer,
         questionAnswers: normalizedQuestionAnswers,
-        hasChild,
         comment,
         moneyGiftEnabled: moneyGiftAvailable && moneyGiftEnabled,
         moneyGiftAmount: moneyGiftAvailable && moneyGiftEnabled ? Number(moneyGiftAmount) : undefined
@@ -451,19 +449,6 @@ export function LandingPage() {
                 onChange={(value) => setQuestionAnswers((answers) => ({ ...answers, [question.id]: value }))}
               />
             ))}
-            <fieldset className="choice-group">
-              <legend>Будет ли с вами на празднике ребенок</legend>
-              <div className="choice-list horizontal">
-                <label className="choice">
-                  <input type="radio" checked={hasChild} onChange={() => setHasChild(true)} />
-                  <span>да</span>
-                </label>
-                <label className="choice">
-                  <input type="radio" checked={!hasChild} onChange={() => setHasChild(false)} />
-                  <span>нет</span>
-                </label>
-              </div>
-            </fieldset>
             <label className="field">
               Комментарий
               <textarea value={comment} onChange={(event) => setComment(event.target.value)} rows={4} />

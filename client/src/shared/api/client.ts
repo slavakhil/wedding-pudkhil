@@ -24,7 +24,7 @@ export type RsvpPayload = {
   foodPreferences: string[];
   alcoholPreferences: string[];
   questionAnswers: Record<string, string[]>;
-  hasChild: boolean;
+  hasChild?: boolean;
   comment?: string;
   moneyGiftEnabled: boolean;
   moneyGiftAmount?: number;
